@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Multitarefa - MateusOS</title>
+  <style>
+    body {
+      margin: 0;
+      background: url('https://wallpapercave.com/wp/wp2757874.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    .taskbar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+    .desktop-icon {
+      width: 80px;
+      text-align: center;
+      margin: 10px;
+      color: white;
+      cursor: pointer;
+    }
+    .desktop-icon img {
+      width: 48px;
+      height: 48px;
+    }
+    .window {
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      width: 400px;
+      height: 300px;
+      background: white;
+      border: 1px solid #999;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      display: none;
+      flex-direction: column;
+    }
+    .window-header {
+      background: #333;
+      color: white;
+      padding: 5px;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+    }
+    .window-body {
+      flex: 1;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="desktop-icon" onclick="toggleWindow('notepad')">
+    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Bloco de Notas">
+    <div>Notas</div>
+  </div>
+
+  <div class="desktop-icon" onclick="toggleWindow('calc')">
+    <img src="https://cdn-icons-png.flaticon.com/512/3126/3126534.png" alt="Calculadora">
+    <div>Calculadora</div>
+  </div>
+
+  <div class="window" id="notepad">
+    <div class="window-header">
+      <span>Bloco de Notas</span>
+      <button onclick="toggleWindow('notepad')">X</button>
+    </div>
+    <div class="window-body">
+      <textarea style="width:100%; height:100%; resize: none;"></textarea>
+    </div>
+  </div>
+
+  <div class="window" id="calc">
+    <div class="window-header">
+      <span>Calculadora</span>
+      <button onclick="toggleWindow('calc')">X</button>
+    </div>
+    <div class="window-body">
+      <input type="text" id="calcDisplay" style="width: 100%; font-size: 20px;" readonly><br>
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+        <button onclick="appendCalc('7')">7</button>
+        <button onclick="appendCalc('8')">8</button>
+        <button onclick="appendCalc('9')">9</button>
+        <button onclick="appendCalc('/')">/</button>
+        <button onclick="appendCalc('4')">4</button>
+        <button onclick="appendCalc('5')">5</button>
+        <button onclick="appendCalc('6')">6</button>
+        <button onclick="appendCalc('*')">*</button>
+        <button onclick="appendCalc('1')">1</button>
+        <button onclick="appendCalc('2')">2</button>
+        <button onclick="appendCalc('3')">3</button>
+        <button onclick="appendCalc('-')">-</button>
+        <button onclick="appendCalc('0')">0</button>
+        <button onclick="appendCalc('.')">.</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendCalc('+')">+</button>
+        <button onclick="clearCalc()" style="grid-column: span 4;">C</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="taskbar">MateusOS - Multitarefas</div>
+
+  <script>
+    function toggleWindow(id) {
+      const win = document.getElementById(id);
+      win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    let calcInput = '';
+    function appendCalc(val) {
+      calcInput += val;
+      document.getElementById('calcDisplay').value = calcInput;
+    }
+    function calculate() {
+      try {
+        calcInput = eval(calcInput).toString();
+      } catch {
+        calcInput = 'Erro';
+      }
+      document.getElementById('calcDisplay').value = calcInput;
+    }
+    function clearCalc() {
+      calcInput = '';
+      document.getElementById('calcDisplay').value = '';
+    }
+  </script>
+</body>
+</html>
